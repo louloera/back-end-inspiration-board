@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify, make_response
 from app import db
-from app.routes import valid
+from . import valid
 from app.models.card import Card
 
 
