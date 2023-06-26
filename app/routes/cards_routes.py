@@ -8,7 +8,7 @@ cards_bp = Blueprint('cards', __name__, url_prefix='/cards')
 
 @cards_bp.route('/<card_id>', methods=['DELETE'])
 def delete_card(card_id):
-    card= valid.validate_id(Card, card_id)
+    card = valid.validate_id(Card, card_id)
     
     card_title = card.title
     
