@@ -26,8 +26,11 @@ def create_app():
     migrate.init_app(app, db)
 
     # Register Blueprints here
-    from .routes import cards_bp
+    from .models.routes.cards_routes import cards_bp
+    from .models.routes.boards_route import boards_bp
+
     app.register_blueprint(cards_bp)
+    app.register_blueprint(boards_bp)
 
 
 
