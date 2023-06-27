@@ -72,4 +72,4 @@ def get_one_board_cards(board_id):
     board = valid.validate_id(Board, board_id)
     cards = Card.query.filter_by(board_id=board_id)
     
-    return (board.to_dict()) | ({'cards': [card.to_dict() for card in cards]}), 200
+    return ({'cards': [card.to_dict() for card in cards]}), 200
