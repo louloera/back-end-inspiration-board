@@ -21,3 +21,7 @@ class Board (db.Model):
                     owner=request_body['owner']
                     )
         return board
+    
+    @classmethod
+    def get_attributes(cls):
+        return ['title']
