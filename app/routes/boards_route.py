@@ -64,7 +64,7 @@ def post_card_ids_to_board(board_id):
     db.session.add(new_card)
     db.session.commit()
 
-    return {'board_id': int(board_id), 'card': new_card}, 200
+    return {'board_id': int(board_id), 'card': valid_request}, 200
 
 
 @boards_bp.route('/<board_id>/cards', methods=['GET'])
