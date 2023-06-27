@@ -11,7 +11,7 @@ def update_card(card_id):
     card= valid.validate_id(Card, card_id)
     request_body = request.get_json()
     
-    card.likes_count = request_body.get('description', card.likes_count)
+    card.likes_count = request_body.get('likes_count', card.likes_count)
     card.board_id = request_body.get('board_id', card.board_id)
     
     db.session.commit()
