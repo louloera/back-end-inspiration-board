@@ -59,6 +59,7 @@ def post_card_ids_to_board(board_id):
     
     valid_request = valid.validate_entry(Card, request_body)
     new_card = Card.from_dict(valid_request)
+    new_card.board_id = board_id
     
     db.session.add(new_card)
     db.session.commit()
