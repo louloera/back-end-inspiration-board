@@ -17,7 +17,7 @@ def create_board():
     
     db.session.add(new_board)
     db.session.commit()
-    return {'goal': new_board.to_dict()}, 201
+    return {'board': new_board.to_dict()}, 201
 
 
 @boards_bp.route('', methods=['GET'])
