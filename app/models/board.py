@@ -15,6 +15,10 @@ class Board (db.Model):
         }
 
     @classmethod
+    def get_attributes(cls):
+        return 'title', 'owner'
+    
+    @classmethod
     def from_dict(cls, request_body):
         board = cls(
                     title=request_body['title'],
