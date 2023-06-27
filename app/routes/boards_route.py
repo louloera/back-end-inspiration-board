@@ -17,7 +17,7 @@ def create_board():
     
     db.session.add(new_board)
     db.session.commit()
-    return {'goal': new_board.to_dict()}, 201
+    return {'board': new_board.to_dict()}, 201
 
 
 @boards_bp.route('', methods=['GET'])
@@ -64,7 +64,7 @@ def post_card_ids_to_board(board_id):
     db.session.add(new_card)
     db.session.commit()
 
-    return {"id":int(board_id)}, 200
+    return {'board_id': int(board_id), 'card_ids': request_body['cards']}, 200
 
 
 @boards_bp.route('/<board_id>/cards', methods=['GET'])
