@@ -53,15 +53,22 @@ def delete_board(board_id):
 
 @boards_bp.route('/<board_id>/cards', methods=['POST'])
 def post_card_ids_to_board(board_id):
+
     valid.validate_id(Board, board_id)
     request_body = request.get_json()
     
-    for card_id in request_body['card_ids']:
-        card = valid.validate_id(Card, str(card_id))
-        card.board_id = board_id
-
+    # for card_id in request_body['card_id']:
+    #     card = valid.validate_id(Card, str(card_id))
+    #     card.board_id = board_id
+    
+    new_card = Card.from_dict(request_body)
+    
+    db.session.add(new_card)
     db.session.commit()
-    return {'id': int(board_id), 'card_ids': request_body['card_ids']}, 200
+    # return {'goal': new_board.to_dict()}, 201
+
+    # db.session.commit()
+    return {"id":int(board_id)}, 200
 
 
 @boards_bp.route('/<board_id>/cards', methods=['GET'])
