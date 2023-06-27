@@ -10,8 +10,8 @@ cards_bp = Blueprint('cards', __name__, url_prefix='/cards')
 def delete_card(card_id):
     card = valid.validate_id(Card, card_id)
     
-    card_title = card.title
+    card_message= card.message
     
     db.session.delete(card)
     db.session.commit()
-    return {'details': f'Card {card_id} "{card_title}" successfully deleted'}, 200
+    return {'details': f'Card {card_id} "{card_message}" successfully deleted'}, 200
