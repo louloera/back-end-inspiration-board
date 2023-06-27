@@ -22,6 +22,10 @@ class Card (db.Model):
         return card_dict
     
     @classmethod
+    def get_attributes(cls):
+        return 'message', 'likes_count'
+    
+    @classmethod
     def from_dict(cls, request_body):
         card = cls(
                 message=request_body['message'],
