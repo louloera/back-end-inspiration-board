@@ -12,7 +12,7 @@ class Card (db.Model):
 
     def to_dict(self):
         card_dict = {
-            'id': self.id,
+            'card_id': self.card_id,
             'message': self.message,
             'likes_count': self.likes_count,
             }
