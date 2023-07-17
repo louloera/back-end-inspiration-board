@@ -20,7 +20,7 @@ def create_board():
     
     db.session.add(new_board)
     db.session.commit()
-    return jsonify(new_board.to_dict()), 201
+    return new_board.to_dict(), 201
 
 
 @boards_bp.route('', methods=['GET'])
@@ -40,7 +40,7 @@ def get_boards():
 def get_board_by_id(board_id):
     board = valid.validate_id(Board, board_id)
     
-    return jsonify(board.to_dict()), 200
+    return board.to_dict(), 200
     # return {'board': board.to_dict()}, 200
 
 
@@ -70,13 +70,14 @@ def post_card_ids_to_board(board_id):
 
     url = "https://slack.com/api/chat.postMessage"
     token = os.environ.get("SLACK_BOT_TOKEN")
-    data ={ "channel": "nerdjal",
-           "text":f"Someone just added a card {new_card.message}",
-           "token": token
+    data ={ 
+        "channel": "nerdjal",
+        "text":f"Someone just added a card {new_card.message}",
+        "token": token
     }
     response = requests.post(url, data=data)
 
-    return {'card': new_card.to_dict()}, 200
+    return new_card.to_dict(), 200
 
 
 @boards_bp.route('/<board_id>/cards', methods=['GET'])

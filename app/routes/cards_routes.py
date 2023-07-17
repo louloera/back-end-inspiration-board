@@ -16,7 +16,7 @@ def update_card(card_id):
     
     db.session.commit()
     
-    return {'card': card.todict()}, 201
+    return card.to_dict(), 201
 
 
 @cards_bp.route('/<card_id>', methods=['DELETE'])
