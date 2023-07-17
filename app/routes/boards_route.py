@@ -3,6 +3,9 @@ from app import db
 from app.models.card import Card
 from app.models.board import Board
 from . import valid
+import os
+# from dotenv import load_dotenv
+import requests
 
 
 boards_bp = Blueprint('boards', __name__, url_prefix='/boards')
@@ -64,6 +67,15 @@ def post_card_ids_to_board(board_id):
     db.session.add(new_card)
     db.session.commit()
 
+    url = "https://slack.com/api/chat.postMessage"
+    token = os.environ.get("SLACK_BOT_TOKEN")
+    data ={ "channel": "task-notifications",
+           "text":f"Someone just added a card {new_card.message}",
+           "token": token
+    }
+
+    response = requests.post(url, data=data)
+
     return {'card': new_card.to_dict()}, 200
 
 
@@ -73,5 +85,3 @@ def get_one_board_cards(board_id):
     cards = Card.query.filter_by(board_id=board_id)
     
     return (board.to_dict()) | ({'cards': [card.to_dict() for card in cards]}), 200
-
-# patch card resend all the info 
