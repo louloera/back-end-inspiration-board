@@ -80,6 +80,18 @@ def post_card_ids_to_board(board_id):
     return {'card': new_card.to_dict()}, 200
 
 
+@boards_bp.route('/boards', methods=['DELETE'])
+def delete_all_boards():
+
+    boards = Board.query.all()
+    boards_response = []
+    
+    for board in boards: 
+        db.session.delete(board)
+
+    db.session.commit()
+    return jsonify("Deleted all boards"), 201
+
 @boards_bp.route('/<board_id>/cards', methods=['GET'])
 def get_one_board_cards(board_id):
     board = valid.validate_id(Board, board_id)
