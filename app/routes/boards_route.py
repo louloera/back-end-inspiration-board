@@ -64,7 +64,7 @@ def post_card_ids_to_board(board_id):
     db.session.add(new_card)
     db.session.commit()
 
-    return {'board_id': int(board_id), 'card': valid_request}, 200
+    return {'card': new_card.to_dict()}, 200
 
 
 @boards_bp.route('/<board_id>/cards', methods=['GET'])
@@ -73,3 +73,5 @@ def get_one_board_cards(board_id):
     cards = Card.query.filter_by(board_id=board_id)
     
     return (board.to_dict()) | ({'cards': [card.to_dict() for card in cards]}), 200
+
+# patch card resend all the info 

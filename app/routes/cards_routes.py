@@ -16,7 +16,7 @@ def update_card(card_id):
     
     db.session.commit()
     
-    return {'msg': f'Card {card.message} updated and now have {card.likes_count} likes count'}, 201
+    return {'card': card.todict()}, 201
 
 
 @cards_bp.route('/<card_id>', methods=['DELETE'])
