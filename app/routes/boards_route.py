@@ -40,8 +40,7 @@ def get_boards():
 def get_board_by_id(board_id):
     board = valid.validate_id(Board, board_id)
     
-    return jsonify(board.to_dict()), 200
-    # return {'board': board.to_dict()}, 200
+    return (board.to_dict()), 200
 
 
 @boards_bp.route('/<board_id>', methods=['DELETE'])
@@ -77,10 +76,10 @@ def post_card_ids_to_board(board_id):
     }
     response = requests.post(url, data=data)
 
-    return {'card': new_card.to_dict()}, 200
+    return (new_card.to_dict()), 200
 
 
-@boards_bp.route('/boards', methods=['DELETE'])
+@boards_bp.route('', methods=['DELETE'])
 def delete_all_boards():
 
     boards = Board.query.all()
@@ -99,4 +98,3 @@ def get_one_board_cards(board_id):
 
     return ({'cards': [card.to_dict() for card in cards]}), 200
     
-    # return (board.to_dict()) | ({'cards': [card.to_dict() for card in cards]}), 200
