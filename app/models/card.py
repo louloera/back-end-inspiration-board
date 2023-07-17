@@ -23,7 +23,7 @@ class Card (db.Model):
     
     @classmethod
     def get_attributes(cls):
-        return 'message'
+        return 'message', 'likes_count'
     
     @classmethod
     def from_dict(cls, request_body):

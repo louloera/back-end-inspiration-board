@@ -20,7 +20,7 @@ def create_board():
     
     db.session.add(new_board)
     db.session.commit()
-    return new_board.to_dict(), 201
+    return jsonify(new_board.to_dict()), 201
 
 
 @boards_bp.route('', methods=['GET'])
@@ -40,7 +40,7 @@ def get_boards():
 def get_board_by_id(board_id):
     board = valid.validate_id(Board, board_id)
     
-    return board.to_dict(), 200
+    return jsonify(board.to_dict()), 200
     # return {'board': board.to_dict()}, 200
 
 
@@ -77,7 +77,7 @@ def post_card_ids_to_board(board_id):
     }
     response = requests.post(url, data=data)
 
-    return new_card.to_dict(), 200
+    return {'card': new_card.to_dict()}, 200
 
 
 @boards_bp.route('/<board_id>/cards', methods=['GET'])
