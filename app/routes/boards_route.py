@@ -70,11 +70,10 @@ def post_card_ids_to_board(board_id):
 
     url = "https://slack.com/api/chat.postMessage"
     token = os.environ.get("SLACK_BOT_TOKEN")
-    data ={ "channel": "task-notifications",
+    data ={ "channel": "nerdjal",
            "text":f"Someone just added a card {new_card.message}",
            "token": token
     }
-
     response = requests.post(url, data=data)
 
     return {'card': new_card.to_dict()}, 200
