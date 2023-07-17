@@ -20,7 +20,7 @@ def create_board():
     
     db.session.add(new_board)
     db.session.commit()
-    return {'board': new_board.to_dict()}, 201
+    return jsonify(new_board.to_dict()), 201
 
 
 @boards_bp.route('', methods=['GET'])
@@ -40,7 +40,8 @@ def get_boards():
 def get_board_by_id(board_id):
     board = valid.validate_id(Board, board_id)
     
-    return {'board': board.to_dict()}, 200
+    return jsonify(board.to_dict()), 200
+    # return {'board': board.to_dict()}, 200
 
 
 @boards_bp.route('/<board_id>', methods=['DELETE'])
@@ -83,5 +84,7 @@ def post_card_ids_to_board(board_id):
 def get_one_board_cards(board_id):
     board = valid.validate_id(Board, board_id)
     cards = Card.query.filter_by(board_id=board_id)
+
+    return ({'cards': [card.to_dict() for card in cards]}), 200
     
-    return (board.to_dict()) | ({'cards': [card.to_dict() for card in cards]}), 200
+    # return (board.to_dict()) | ({'cards': [card.to_dict() for card in cards]}), 200
