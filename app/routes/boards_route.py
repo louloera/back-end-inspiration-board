@@ -82,12 +82,9 @@ def post_card_ids_to_board(board_id):
 @boards_bp.route('', methods=['DELETE'])
 def delete_all_boards():
 
-    boards = Board.query.all()
-    boards_response = []
+    boards = Board.query.delete()
+    cards = Card.query.delete()
     
-    for board in boards: 
-        db.session.delete(board)
-
     db.session.commit()
     return jsonify("Deleted all boards"), 201
 
