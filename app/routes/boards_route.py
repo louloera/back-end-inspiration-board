@@ -57,7 +57,7 @@ def delete_board(board_id):
 @boards_bp.route('/<board_id>/cards', methods=['POST'])
 def post_card_ids_to_board(board_id):
 
-    valid.validate_id(Board, board_id)
+    board =valid.validate_id(Board, board_id)
     request_body = request.get_json()
     
     valid_request = valid.validate_entry(Card, request_body)
@@ -71,7 +71,7 @@ def post_card_ids_to_board(board_id):
     token = os.environ.get("SLACK_BOT_TOKEN")
     data ={ 
         "channel": "nerdjal2",
-        "text":f"Someone just added a card {new_card.message}",
+        "text":f"Someone just added a card {new_card.message} to the {board.title} board",
         "token": token
     }
     response = requests.post(url, data=data)

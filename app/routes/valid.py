@@ -13,8 +13,12 @@ def validate_id(model, id):
     return entity
 
 def validate_entry(model, request_body):
+
     for atr in model.get_attributes():
         if atr not in request_body:
-            abort(make_response({'details': 'Invalid data'}, 400))
-
+            abort(make_response({'details': f'{atr} is Invalid data '}, 400))
+    # else: 
+    #     if 'message' not in request_body:
+    #         abort(make_response({'details': f'{atr} is Invalid data '}, 400))
+    
     return request_body

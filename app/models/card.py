@@ -5,7 +5,7 @@ class Card (db.Model):
     __tablename__ = 'cards'
     card_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     message = db.Column(db.String)
-    likes_count = db.Column(db.Integer, default=0)
+    likes_count = db.Column(db.Integer,default=0)
     board_id = db.Column(db.Integer, db.ForeignKey('boards.board_id'), nullable=True)
     board = db.relationship('Board', back_populates='cards')
 
@@ -23,7 +23,7 @@ class Card (db.Model):
     
     @classmethod
     def get_attributes(cls):
-        return 'message'
+        return (['message'])
     
     @classmethod
     def from_dict(cls, request_body):
