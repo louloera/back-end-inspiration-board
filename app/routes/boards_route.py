@@ -1,17 +1,18 @@
 from flask import Blueprint, request, jsonify
+from flask_cors import cross_origin
 from app import db
 from app.models.card import Card
 from app.models.board import Board
 from . import valid
-import os
-# from dotenv import load_dotenv
 import requests
+import os
 
 
 boards_bp = Blueprint('boards', __name__, url_prefix='/boards')
 
 
 @boards_bp.route('', methods=['POST'])
+@cross_origin()
 def create_board():
     request_body = request.get_json()
     valid_request = valid.validate_entry(Board, request_body)
@@ -55,6 +56,7 @@ def delete_board(board_id):
 
 
 @boards_bp.route('/<board_id>/cards', methods=['POST'])
+@cross_origin()
 def post_card_ids_to_board(board_id):
 
     board =valid.validate_id(Board, board_id)
