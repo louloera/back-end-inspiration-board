@@ -27,6 +27,8 @@ class Card (db.Model):
     
     @classmethod
     def from_dict(cls, request_body):
+        if 'likes_count' not in request_body:
+            request_body['likes_count'] = 0
         card = cls(
                 message=request_body['message'],
                 likes_count=request_body['likes_count'],
