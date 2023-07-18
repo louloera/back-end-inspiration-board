@@ -92,9 +92,10 @@ def delete_all_boards():
     return jsonify("Deleted all boards"), 201
 
 @boards_bp.route('/<board_id>/cards', methods=['GET'])
+
 def get_one_board_cards(board_id):
     board = valid.validate_id(Board, board_id)
-    cards = Card.query.filter_by(board_id=board_id)
+    cards = Card.query.filter_by(board_id=board_id).order_by(Card.likes_count.desc()).order_by(Card.message.asc())
 
     return ({'cards': [card.to_dict() for card in cards]}), 200
     
