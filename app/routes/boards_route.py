@@ -1,5 +1,4 @@
 from flask import Blueprint, request, jsonify
-from flask_cors import cross_origin
 from app import db
 from app.models.card import Card
 from app.models.board import Board
@@ -12,7 +11,6 @@ boards_bp = Blueprint('boards', __name__, url_prefix='/boards')
 
 
 @boards_bp.route('', methods=['POST'])
-@cross_origin()
 def create_board():
     request_body = request.get_json()
     valid_request = valid.validate_entry(Board, request_body)
@@ -21,7 +19,8 @@ def create_board():
     
     db.session.add(new_board)
     db.session.commit()
-    return jsonify(new_board.to_dict()), 201
+    
+    return new_board.to_dict(), 201
 
 
 @boards_bp.route('', methods=['GET'])
@@ -33,15 +32,14 @@ def get_boards():
     else:
         boards = Board.query.all()
     
-    board_response = [board.to_dict() for board in boards]
-    return jsonify(board_response), 200
+    return jsonify([board.to_dict() for board in boards]), 200
 
 
 @boards_bp.route('/<board_id>', methods=['GET'])
 def get_board_by_id(board_id):
     board = valid.validate_id(Board, board_id)
     
-    return (board.to_dict()), 200
+    return board.to_dict(), 200
 
 
 @boards_bp.route('/<board_id>', methods=['DELETE'])
@@ -52,11 +50,11 @@ def delete_board(board_id):
     
     db.session.delete(board)
     db.session.commit()
+    
     return {'details': f'Board {board_id} "{board_title}" successfully deleted'}, 200
 
 
 @boards_bp.route('/<board_id>/cards', methods=['POST'])
-@cross_origin()
 def post_card_ids_to_board(board_id):
 
     board =valid.validate_id(Board, board_id)
@@ -71,14 +69,14 @@ def post_card_ids_to_board(board_id):
 
     url = "https://slack.com/api/chat.postMessage"
     token = os.environ.get("SLACK_BOT_TOKEN")
-    data ={ 
+    data = {
         "channel": "nerdjal2",
         "text":f"Someone just added a card {new_card.message} to the {board.title} board",
         "token": token
     }
-    response = requests.post(url, data=data)
+    requests.post(url, data=data)
 
-    return (new_card.to_dict()), 200
+    return new_card.to_dict(), 200
 
 
 @boards_bp.route('', methods=['DELETE'])
@@ -96,13 +94,14 @@ def delete_all_boards():
         db.session.delete(card)
 
     db.session.commit()
-    return jsonify("Deleted all boards"), 201
+    
+    return {'details': 'All boards successfully deleted'}, 201
 
 @boards_bp.route('/<board_id>/cards', methods=['GET'])
 
 def get_one_board_cards(board_id):
-    board = valid.validate_id(Board, board_id)
+    valid.validate_id(Board, board_id)
     cards = Card.query.filter_by(board_id=board_id).order_by(Card.likes_count.desc()).order_by(Card.message.asc())
 
-    return ({'cards': [card.to_dict() for card in cards]}), 200
+    return {'cards': [card.to_dict() for card in cards]}, 200
     
